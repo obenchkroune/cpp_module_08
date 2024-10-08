@@ -8,8 +8,7 @@ class MutantStack : public std::stack<Tp>
 public:
     MutantStack() : std::stack<Tp>() {}
     MutantStack(const MutantStack &other) : std::stack<Tp>(other) {}
-    MutantStack &operator=(const MutantStack &other)
-    {
+    MutantStack &operator=(const MutantStack &other) {
         return std::stack<Tp>::operator=(other);
     }
     ~MutantStack() {}
@@ -29,5 +28,4 @@ public:
     typename MutantStack<Tp>::const_iterator end() const { return this->c.end(); }
     typename MutantStack<Tp>::const_reverse_iterator rbegin() const { return this->c.rbegin(); }
     typename MutantStack<Tp>::const_reverse_iterator rend() const { return this->c.rend(); }
-
 };
