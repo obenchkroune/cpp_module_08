@@ -1,7 +1,8 @@
 #include "Span.h"
-#include <climits>
+#include <algorithm>
+#include <limits>
 
-Span::Span(unsigned int size) : _size(size), _count(0), _shortest_span(INT_MAX)
+Span::Span(std::size_t size) : _size(size), _count(0)
 {
 }
 
@@ -19,7 +20,6 @@ Span &Span::operator=(const Span &other) {
         _c = other._c;
         _count = other._count;
         _size = other._size;
-        _shortest_span = other._shortest_span;
     }
     return *this;
 }
@@ -36,27 +36,28 @@ void Span::addNumber(int nbr) {
     if (_count >= _size)
         throw Span::OutOfRangeException();
     _count++;
-    std::multiset<int>::iterator it = _c.insert(nbr);
-    if (it != _c.begin()) {
-        std::multiset<int>::iterator prev_it = it; prev_it--;
-        int tmp = *it - *prev_it;
-        if (tmp < _shortest_span) _shortest_span = tmp;
-    }
-    if (it != --_c.end()) {
-        std::multiset<int>::iterator next_it = it; next_it++;
-        int tmp = *next_it - *it;
-        if (tmp < _shortest_span) _shortest_span = tmp;
-    }
+    _c.push_back(nbr);
 }
 
-unsigned int Span::shortestSpan() {
+int Span::shortestSpan() const
+{
     if (_count < 2)
         throw Span::NoSpanException();
-    return _shortest_span;
+    std::vector<int> temp(_c);
+    std::sort(temp.begin(), temp.end());
+    int result = std::numeric_limits<int>::max();
+    for (std::size_t i = 0; i < temp.size() - 1; i++) {
+        if (temp[i + 1] - temp[i] < result)
+            result = temp[i + 1] - temp[i];
+    }
+    return result;
 }
 
-unsigned int Span::longestSpan() {
+int Span::longestSpan() const
+{
     if (_count < 2)
         throw Span::NoSpanException();
-    return *(_c.rbegin()) - *_c.begin();
+    int min = *std::min_element(_c.begin(), _c.end());
+    int max = *std::max_element(_c.begin(), _c.end());
+    return max - min;
 }

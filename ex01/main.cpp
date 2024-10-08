@@ -36,9 +36,9 @@ void test_range_insertion() {
 }
 
 void test_large_input() {
-    unsigned int N = 100000;
+    int N = 100000;
     Span sp(N);
-    for (unsigned int i = 0; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         sp.addNumber(i);
     }
     assert(sp.longestSpan() == N - 1);
