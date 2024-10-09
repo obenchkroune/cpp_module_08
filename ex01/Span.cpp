@@ -42,13 +42,18 @@ void Span::addNumber(int nbr) {
 int Span::shortestSpan() const
 {
     if (_count < 2)
+    {
         throw Span::NoSpanException();
+    }
     std::vector<int> temp(_c);
     std::sort(temp.begin(), temp.end());
     int result = std::numeric_limits<int>::max();
-    for (std::size_t i = 0; i < temp.size() - 1; i++) {
+    for (std::size_t i = 0; i < temp.size() - 1; i++)
+    {
         if (temp[i + 1] - temp[i] < result)
+        {
             result = temp[i + 1] - temp[i];
+        }
     }
     return result;
 }
@@ -56,7 +61,9 @@ int Span::shortestSpan() const
 int Span::longestSpan() const
 {
     if (_count < 2)
+    {
         throw Span::NoSpanException();
+    }
     int min = *std::min_element(_c.begin(), _c.end());
     int max = *std::max_element(_c.begin(), _c.end());
     return max - min;
